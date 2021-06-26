@@ -14,7 +14,9 @@ fn heavy_computation<T: Integer>(x: T) -> T {
     x
 }
 
-fn main() {}
+fn main() {
+    println!("{}", add(2, 3));
+}
 
 // These tests kind of suck, but oh well
 #[cfg(test)]
