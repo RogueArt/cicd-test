@@ -20,3 +20,21 @@ jobs:
       run: cargo build --verbose
     - name: Run tests
       run: cargo test --verbose
+    - name: GH Release
+    
+    # You may pin to the exact commit or the version.
+    # uses: softprops/action-gh-release@b7e450da2a4b4cb4bfbae528f788167786cfcedf
+    uses: softprops/action-gh-release@v0.1.5
+      #  with:
+      # Note-worthy description of changes in release
+      # body: # optional
+      # Path to load note-worthy description of changes in release from
+      # body_path: # optional
+      # Gives the release a custom name. Defaults to tag name
+      #  name: cicd-executable # optional
+      # Creates a draft release. Defaults to false
+      # draft: # optional
+      # Identify the release as a prerelease. Defaults to false
+      # prerelease: # optional
+      # Newline-delimited list of path globs for asset files to upload
+      # files: # optional
