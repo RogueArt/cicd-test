@@ -18,15 +18,15 @@ jobs:
           - name: linux
             os: ubuntu-latest
             artifact_name: target/release/cicd
-            asset_name: cicd-linux
+            asset_name: ${{ github.repository.name }}-linux
           - name: windows
             os: windows-latest
             artifact_name: target/release/cicd.exe
-            asset_name: cicd-windows
+            asset_name: ${{ github.repository.name }}-windows
           - name: macos
             os: macos-latest
             artifact_name: target/release/cicd
-            asset_name: cicd-macos
+            asset_name: ${{ github.repository.name }}-macos
 
     steps:
       - uses: actions/checkout@v1
