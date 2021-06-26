@@ -19,7 +19,8 @@ fn main() {}
 // These tests kind of suck, but oh well
 #[cfg(test)]
 mod meh_tests {
-    use super::*;
+    use crate::*;
+
     #[test]
     fn check_add() {
         assert_eq!(add(2, 6), 8);
@@ -47,9 +48,4 @@ mod meh_tests {
         assert_eq!(div(2, 1), 2);
         assert_eq!(div(2, -2), -1);
     }
-
-    // #[test]
-    // fn heavy_computation() {
-    //     assert_eq!(heavy_computation(3), 3);
-    // }
 }
