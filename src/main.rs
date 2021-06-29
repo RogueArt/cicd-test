@@ -1,53 +1,51 @@
-use num::Integer;
-use std::{thread, time::Duration};
+mod math;
 
-// Some basic functions
-fn add<T: Integer>(x: T, y: T) -> T { x + y }
-fn sub<T: Integer>(x: T, y: T) -> T { x - y }
-fn mult<T: Integer>(x: T, y: T) -> T { x * y }
-fn div<T: Integer>(x: T, y: T) -> T { x / y }
+// For generating our guess number
+use rand::{thread_rng, Rng};
 
-// Simulate a heavy computation
-const HALF_SECOND: Duration = Duration::from_millis(500);
-fn heavy_computation<T: Integer>(x: T) -> T {
-    thread::sleep(HALF_SECOND);
-    x
-}
+// For getting input from the console
+use std::io::{self, stdin, Write};
+use std::process::{self, Command, Stdio};
 
 fn main() {
-    println!("{}", add(2, 3));
-}
+    // Generate the target number ahead of time 
+    let mut rng = thread_rng();
+    let target_num: u8 = rng.gen_range(0..50);
 
-// These tests kind of suck, but oh well
-#[cfg(test)]
-mod meh_tests {
-    use crate::*;
+    // Begin the guessing game
+    println!("Let's play a guessing game!");
+    println!("Guess a number between {:?}:", 0..50);
+    loop {
+        print!("Guess: ");
+        io::stdout().flush().expect("Something went wrong flushing console output.");
 
-    #[test]
-    fn check_add() {
-        assert_eq!(add(2, 6), 8);
-        assert_eq!(add(2, 0), 2);
-        assert_eq!(add(2, -2), 0);
+        // Get the guess
+        let mut input = String::new();
+        stdin().read_line(&mut input).expect("You entered an invalid string.");
+
+        // If starts with q, assume that they're trying to leave the game
+        if input.trim().starts_with('q') { 
+            println!("Exiting the game...");
+            process::exit(0);
+        }
+
+        // Convert it to an int, check if it's the same as our target
+        match input.trim().parse::<u8>() {
+            Ok(num) => {
+                match num {
+                    n if n < target_num => println!("{} is too small", n),
+                    n if n > target_num => println!("{} is too big", n),
+                    _ => break
+                }
+            },
+            // If error, ask them to type it in again
+            Err(e) => {
+                println!("Try again with a number from {:?}", 0..50);
+                continue;
+            }
+        };    
     }
 
-    #[test]
-    fn check_sub() {
-        assert_eq!(sub(2, 6), -4);
-        assert_eq!(sub(2, 0), 2);
-        assert_eq!(sub(2, -2), 4);
-    }
-
-    #[test]
-    fn check_mult() {
-        assert_eq!(mult(2, 6), 12);
-        assert_eq!(mult(2, 0), 0);
-        assert_eq!(mult(2, -2), -4);
-    }
-
-    #[test]
-    fn check_div() {
-        assert_eq!(div(2, 6), 0);
-        assert_eq!(div(2, 1), 2);
-        assert_eq!(div(2, -2), -1);
-    }
+    // If broke out of statement, means you win the game
+    println!("Congratulations! You win! The number was {}", target_num);
 }
